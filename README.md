@@ -2,6 +2,6 @@
 
 Kalaschnikow online, build during the COVID-19 pandemic
 
-Backend: NodeJS and Express
-Frontend: React
-Communication: socket.io and WebRTC
+Backend: NodeJS and Express<br />
+Frontend: React<br />
+Communication: socket.io and WebRTC<br />
