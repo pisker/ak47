@@ -1,0 +1,70 @@
+.game {
+  height: 100vh;
+}
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Opera and Firefox */
+  }
+
+.circle-item {
+  display: block; 
+  max-width: 100%; 
+  transition: 0.5s;
+  display: block;
+  position: absolute;
+  top:  50%; 
+  left: 50%;
+  
+}
+
+.circle-container-outer {
+  position: absolute;
+  left: 50%;
+  top: 15vh;
+}
+.circle-container-inner {
+  transition: 0.5s;
+  position: relative;
+  border-radius: 50%;
+  padding: 0; 
+  list-style: none;
+  position: relative;
+  top: -50%;
+  left: -50%;
+
+  border: solid 5px tomato;
+}
+
+.circle-center-outer {
+  position: absolute;
+  top:50%;
+  left: 50%;
+}
+
+.circle-center-inner {
+  position: relative;
+  top: -50%;
+  left: -50%;
+  margin-top: -50px;
+}
+
+.startScreen {
+  width: 440px;
+  height: 200px;
+  margin: -225px -100px;
+  border: solid 5px tomato;
+  padding: 20px;
+}
+
+.controlPanel {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  text-align: left;
+  font-size: 15px;
+}
