@@ -21,9 +21,10 @@ class Player extends Component {
         this.peerConnection.ontrack = (event) => {
             if (event.track.kind !== 'video') {
                 console.log('got audio track only from %s, skip..', this.props.name);
-                return;
+                //return;
             }
             console.log('got video track from player', this.props.name);
+            //let inboundStream = new MediaStream(event.track);
             this.setState({ stream: event.streams[0] });
         };
 
@@ -104,7 +105,7 @@ class Player extends Component {
     render() {
         return (
             <div className='player' style={this.props.isOwnPlayer ? { borderColor: 'tomato' } : null} onClick={() => this.props.onClick()}>
-                <video ref={this.videoRef} playsInline={true} autoPlay={true} muted={this.props.isOwnPlayer ? true : false}></video>
+                <video ref={this.videoRef} playsInline={true} autoPlay={true} muted={(this.props.isOwnPlayer || this.props.muted) ? true : false}></video>
                 <span>{this.props.name}</span>
             </div>
 

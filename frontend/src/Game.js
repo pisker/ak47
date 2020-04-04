@@ -17,7 +17,8 @@ class Game extends Component {
             height: 0,
             tableRadius: 0,
             errorMessage: null,
-            cameraError: false
+            cameraError: false,
+            muted: false
         };
         this.playerRefs = [];
         this.socket = props.socket;
@@ -129,22 +130,22 @@ class Game extends Component {
         else
             return (
                 <div className='game noselect'>
-                    <div className='circle-center-outer'>
-                        <div className='circle-center-inner'>
-                            <span>Kalaschnikow<br />Corona-Edition</span><br />
-                        </div>
-                    </div>
                     <div className='circle-container-outer'>
                         <div className='circle-container-inner' style={{ width: this.state.tableRadius * 2 + 'px', height: this.state.tableRadius * 2 + 'px' }}>
                             {this.state.game.players.map((player) => this.renderPlayer(player))}
                             <Cup key='cup1' visible={true} seatIndex={this.state.game.cups[0]} numberOfSeats={this.state.game.players.length} circleRadius={this.state.tableRadius / 1.5 + 'px'} />
                             <Cup key='cup2' visible={true} seatIndex={this.state.game.cups[1]} numberOfSeats={this.state.game.players.length} circleRadius={this.state.tableRadius / 1.5 + 'px'} />
+                            <div className='circle-center-outer'>
+                        <div className='circle-center-inner'>
+                            <span>Kalaschnikow<br />Corona-Edition</span><br />
+                        </div>
+                    </div>
                         </div>
                     </div>
 
                     <div className='controlPanel'>
-                        <button onClick={() => this.stopGame()}>Spiel beenden</button><br />
-                        {this.renderSwitchSeatButton()}
+                        {this.renderSwitchSeatButton()}<br/>
+                         <button onClick={() => this.setState({muted: !this.state.muted})}>{this.state.muted ? 'Stummschaltung aufheben' : 'Stumm schalten'}</button>
                     </div>
                 </div>
             );
@@ -168,13 +169,14 @@ class Game extends Component {
     }
 
     renderPlayer(player) {
-        var itemRadius = Math.round(this.state.tableRadius * 2 * Math.PI /
-            (this.state.game.players.length * 2.5));
-        itemRadius = Math.min(itemRadius, this.state.tableRadius / 2);
-        var circleRadius = this.state.tableRadius + 'px';
-
-        var angle = Math.round(player.seatIndex / this.state.game.players.length * 360);
-        var transform = 'rotate(' + angle + 'deg) translate(' + circleRadius + ') rotate(-' + angle + 'deg)';
+        const smallerWindowSize = Math.min(this.state.width, this.state.height);
+        //const itemRadius = Math.round(this.state.tableRadius * 2 * Math.PI /
+        //    (this.state.game.players.length * 2.5)); // by perimeter
+        var itemRadius = Math.PI * smallerWindowSize / (this.state.game.players.length*2.5+2*Math.PI);
+        itemRadius = Math.min(itemRadius, smallerWindowSize / (3*2)); // or by dividing window in 3 parts
+        const circleRadius = (smallerWindowSize - 2*itemRadius)/2 + 'px';
+        const angle = Math.round(player.seatIndex / this.state.game.players.length * 360);
+        const transform = 'rotate(' + angle + 'deg) translate(' + circleRadius + ') rotate(-' + angle + 'deg)';
 
         return (
             <div key={player.id} className='circle-item' style={{
@@ -186,7 +188,7 @@ class Game extends Component {
                 <Player ref={(ref) => { this.playerRefs[player.seatIndex] = ref; }}
                     onClick={() => this.handlePlayerClick(player)}
                     id={player.id} socket={this.socket}
-                    name={player.name} seatIndex={player.seatIndex}
+                    name={player.name} seatIndex={player.seatIndex} muted={this.state.muted}
                     isOwnPlayer={player.id === this.socket.id} ownStream={this.state.ownStream}
                     shouldSendOffers={this.firstRender && (player.id !== this.socket.id)}
                 />

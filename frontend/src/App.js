@@ -23,7 +23,7 @@ class App extends Component {
     this.socket.on('connect', () => {
       this.setState({ isConnected: true });
       const hash = window.location.hash;
-      if (hash.length === 7) {
+      if (hash.length === 5) {
         const value = parseInt(hash.substr(1), 16);
         if (value !== undefined && value > 0) {
           // game id provided in hash
@@ -50,7 +50,8 @@ class App extends Component {
   }
 
   onSetGameId(id) {
-    const newHash = '#' + id.toString(16).toUpperCase();
+    const idString = id.toString(16).toUpperCase();
+    const newHash = '#' + idString.padStart(4, '0');
     if (window.location.hash !== newHash) {
       this.ignoreHashChange = true;
       window.location.hash = newHash;

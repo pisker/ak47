@@ -4,7 +4,7 @@ const assert = require('assert').strict;
 class KalaschnikowGame {
     #io;
     constructor(io, onGameEnded) {
-        this.id = Math.round(Math.random() * Math.pow(2, 24)); // 24 bit identifier
+        this.id = Math.round(Math.random() * Math.pow(2, 16)); // 24 bit identifier
         this.#io = io;
         this.onGameEnded = onGameEnded;
         this.players = [];
