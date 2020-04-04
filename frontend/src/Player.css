@@ -14,13 +14,8 @@
     overflow: hidden;
 }
 
-.player span {
-    vertical-align: middle;
-    display: inline-block;
-    padding: 20px;
-}
 
-.test span {
+.player span {
     position: absolute;
     width: 100px;
     height: 100px;
